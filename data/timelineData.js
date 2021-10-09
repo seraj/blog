@@ -72,6 +72,15 @@ const timelineData = [
       'Tech Python fundamentals and Python web development',
     ],
   },
+  {
+    time: 'Aug 2008 - Jan 2013',
+    role: 'Front-end Developer and UI Designer',
+    company: 'Freelancer',
+    works: [
+      'Design customers website using datalife, wordpress and php',
+      'Design User Interface, advertisment banners, logos using adobe photoshop',
+    ],
+  },
 ]
 
 module.exports = timelineData
