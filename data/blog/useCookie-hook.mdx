@@ -1,0 +1,71 @@
+---
+title: 'Making a hook for managing cookies easily'
+date: '2021-10-09'
+tags:
+  [
+    'javascript',
+    'hook',
+    'reactjs',
+    'cookie'
+  ]
+draft: false
+summary: 'Create an hook for managing cookie easily in reactjs application'
+images: ['/static/images/note.jpg']
+authors: ['default']
+---
+
+import Twemoji from './Twemoji.js'
+import UnsplashLicense from './UnsplashLicense.js'
+
+
+useCookie implementation
+
+```js:useCookie.js
+import { useState, useCallback } from "react"
+import Cookies from "js-cookie"
+
+export default function useCookie(name, defaultValue) {
+  const [value, setValue] = useState(() => {
+    const cookie = Cookies.get(name)
+    if (cookie) return cookie
+    Cookies.set(name, defaultValue)
+    return defaultValue
+  })
+
+  const updateCookie = useCallback(
+    (newValue, options) => {
+      Cookies.set(name, newValue, options)
+      setValue(newValue)
+    },
+    [name]
+  )
+
+  const deleteCookie = useCallback(() => {
+    Cookies.remove(name)
+    setValue(null)
+  }, [name])
+
+  return [value, updateCookie, deleteCookie]
+}
+```
+
+
+usage:
+
+```js:DisplayName.js
+import useCookie from "./useCookie"
+
+function DisplayName() {
+  const [value, update, remove] = useCookie("name", "Doe")
+
+  return (
+    <>
+      <div>{value}</div>
+      <button onClick={() => update("Seraj")}>Change Name To Seraj</button>
+      <button onClick={remove}>Delete Cookie</button>
+    </>
+  )
+}
+
+export default DisplayName;
+```
