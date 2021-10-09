@@ -4,7 +4,7 @@ import FacebookIcon from '@/components/social-icons/facebook.svg'
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 
-const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/main/data/blog/${fileName}`
+const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
 const discussUrl = (postUrl) => `https://twitter.com/search?q=${encodeURIComponent(postUrl)}`
 
 const SocialButtons = ({ postUrl, title, fileName }) => {
