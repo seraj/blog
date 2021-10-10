@@ -23,6 +23,18 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
           />
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-30YQPZHBTC" />
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-30YQPZHBTC', { page_path: window.location.pathname });
+            `,
+            }}
+          />
         </Head>
         <body className="antialiased text-black bg-white dark:bg-gray-800 dark:text-white">
           <Main />
