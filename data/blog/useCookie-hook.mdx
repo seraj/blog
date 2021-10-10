@@ -1,22 +1,15 @@
 ---
-title: 'Making a hook for managing cookies easily'
+title: 'useCookie Hook - a simple way to work with cookies'
 date: '2021-10-09'
-tags:
-  [
-    'javascript',
-    'hook',
-    'reactjs',
-    'cookie'
-  ]
+tags: ['javascript', 'hook', 'reactjs', 'cookie']
 draft: false
-summary: 'Create an hook for managing cookie easily in reactjs application'
+summary: 'a hook for adding, removing, and modifying cookies'
 images: ['/static/images/note.jpg']
 authors: ['default']
 ---
 
 import Twemoji from './Twemoji.js'
 import UnsplashLicense from './UnsplashLicense.js'
-
 
 useCookie implementation
 
@@ -48,7 +41,6 @@ export default function useCookie(name, defaultValue) {
   return [value, updateCookie, deleteCookie]
 }
 ```
-
 
 usage:
 
