@@ -1,7 +1,7 @@
 const siteMetadata = {
   title: "Seraj's blog",
   author: 'Seraj Vahdati',
-  headerTitle: "Seraj's blog",
+  headerTitle: 'Seraj Vahdati',
   footerTitle: 'Seraj Vahdati',
   description: 'Seraj Vahdati - Front End Engineer',
   snippets: 'Reuseable code snippets collected by Seraj',
