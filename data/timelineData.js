@@ -1,6 +1,13 @@
 const timelineData = [
   {
-    time: 'March 2020 - now',
+    time: 'June 2022 - now',
+    role: 'Front End Engineer',
+    company: 'PixelsAndCode',
+    companyURL: 'https://pixelsandcode.ge/',
+    works: ['...'],
+  },
+  {
+    time: 'March 2020 - June 2022',
     role: 'Front End Engineer',
     company: 'Omid Analyzer',
     companyURL: 'https://omid.ir',
