@@ -24,16 +24,7 @@ export default function Home({ posts }) {
             Seraj Vahdati <i className="twa twa-waving-hand"></i>
           </h1>
           <p className="text-lg leading-7 text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Senior Front End Engineer</span> at{' '}
-            <a
-              href="https://goki.travel/"
-              target="_blank"
-              className="text-primary-400 hover:text-primary-600 dark:hover:text-primary-400"
-              rel="noreferrer"
-            >
-              Goki
-            </a>
-            .
+            <span className="font-medium">Senior Front End Engineer</span>.
             <p className="my-4">
               I'm a passionate software developer with experience across the stack and always keen
               to try all the shiny new little things the web has to offer. Service workers,
