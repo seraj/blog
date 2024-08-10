@@ -26,12 +26,12 @@ export default function Home({ posts }) {
           <p className="text-lg leading-7 text-gray-600 dark:text-gray-400">
             <span className="font-medium">Senior Front End Engineer</span> at{' '}
             <a
-              href="https://omid.ir"
+              href="https://goki.travel/"
               target="_blank"
               className="text-primary-400 hover:text-primary-600 dark:hover:text-primary-400"
               rel="noreferrer"
             >
-              Omid Analyzer
+              Goki
             </a>
             .
             <p className="my-4">
@@ -75,7 +75,7 @@ export default function Home({ posts }) {
                             </Link>
                           </h2>
                           <div className="flex flex-wrap">
-                            {tags.map((tag) => (
+                            {tags?.map((tag) => (
                               <Tag key={tag} text={tag} />
                             ))}
                           </div>

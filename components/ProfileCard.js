@@ -134,7 +134,7 @@ const ProfileInfo = () => (
         />
       </svg>
 
-      <h1 className="px-2 text-sm">Software Engineer @ Omid Analyzer</h1>
+      <h1 className="px-2 text-sm">Software Engineer @ Goki</h1>
     </div>
 
     <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">
