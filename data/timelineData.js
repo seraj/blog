@@ -2,8 +2,8 @@ const timelineData = [
   {
     time: 'June 2022 - now',
     role: 'Front End Engineer',
-    company: 'PixelsAndCode',
-    companyURL: 'https://pixelsandcode.ge/',
+    company: 'Goki',
+    companyURL: 'https://goki.travel/',
     works: ['...'],
   },
   {
