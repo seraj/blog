@@ -23,6 +23,23 @@ export default function Home({ posts }) {
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Seraj Vahdati <Emoji emoji="👋" />
           </h1>
+          <div
+            className="badge-base LI-profile-badge"
+            data-locale="en_US"
+            data-size="medium"
+            data-theme="dark"
+            data-type="VERTICAL"
+            data-vanity="svahdati"
+            data-version="v1"
+          >
+            <a
+              className="badge-base__link LI-simple-link"
+              href="https://ir.linkedin.com/in/svahdati?trk=profile-badge"
+            >
+              Seraj Vahdati
+            </a>
+          </div>
+
           <div className="text-lg leading-7 text-gray-600 dark:text-gray-400">
             <span className="font-medium">Senior Front End Engineer</span>.{' '}
             <div className="text-base font-medium leading-6">

@@ -1,0 +1,73 @@
+---
+title: 'Understanding defer and async in HTML: A Guide to Script Loading'
+date: '2024-08-11'
+tags: ['javascript', 'html', 'script', 'async', 'defer']
+draft: false
+summary: 'This post dives into the different ways to control script loading with attributes like defer, async, and others, ensuring your web pages are fast and responsive.'
+images: ['/static/images/const-vs-let-vs-var.png']
+authors: ['default']
+---
+
+When it comes to optimizing the performance of your web pages, understanding how JavaScript is loaded and executed is crucial. Two important attributes in the `<script>` tag—`defer` and `async`—play a significant role in controlling this process. Let's dive into what these attributes do, how they differ, and when to use each one.
+
+#### The `defer` Attribute: Ensuring Orderly Execution After HTML Parsing
+
+The `defer` attribute allows you to load your JavaScript files without blocking the HTML parsing process. When you use `defer`, the script is downloaded in parallel with the HTML, but it won’t be executed until the entire document has been parsed.
+
+**Key Characteristics**:
+
+- **Asynchronous Loading**: The script is fetched in the background, allowing the browser to continue parsing the HTML.
+- **Ordered Execution**: Deferred scripts are executed in the order they appear in the HTML, ensuring that any dependencies between scripts are respected.
+- **Execution After Parsing**: The script is only executed after the entire HTML document has been parsed, ensuring that the DOM is fully constructed.
+
+**Use Case**: Use `defer` for scripts that interact with the DOM or depend on other scripts. It’s ideal for most modern web applications where you want your page to render as quickly as possible without waiting for scripts to execute.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Defer Example</title>
+    <script src="main.js" defer></script>
+    <script src="helper.js" defer></script>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+  </body>
+</html>
+```
+
+In this example, `main.js` and `helper.js` are loaded asynchronously, but their execution is deferred until after the HTML is fully parsed, maintaining the order in which they appear.
+
+#### The `async` Attribute: Quick Execution for Independent Scripts
+
+The `async` attribute also loads scripts asynchronously, but with a key difference: it executes the script as soon as it’s ready, without waiting for the HTML to be fully parsed.
+
+**Key Characteristics**:
+
+- **Asynchronous Loading**: The script is fetched in parallel with the HTML parsing, just like `defer`.
+- **Immediate Execution**: The script is executed as soon as it’s available, potentially before the HTML parsing is complete.
+- **Unordered Execution**: The order of script execution is not guaranteed. Scripts will execute as soon as they are ready, regardless of their position in the document.
+
+**Use Case**: Use `async` for scripts that are independent of other scripts and don’t need to interact with the DOM immediately, such as analytics or third-party advertising scripts.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Async Example</title>
+    <script src="analytics.js" async></script>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+  </body>
+</html>
+```
+
+In this case, `analytics.js` is loaded and executed as soon as it’s ready, without waiting for the HTML to be parsed or worrying about script execution order.
+
+### Choosing Between `defer` and `async`
+
+- **Use `defer`** when the script needs the DOM to be fully loaded or when the execution order of multiple scripts is important.
+- **Use `async`** for scripts that are independent of the DOM or other scripts and can execute as soon as they are loaded.
+
+By understanding and applying these attributes effectively, you can significantly improve your website's performance, ensuring a smoother user experience.
