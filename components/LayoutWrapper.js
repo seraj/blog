@@ -1,11 +1,11 @@
-import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Link from './Link'
-import SectionContainer from './SectionContainer'
-import Footer from './Footer'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
+import { cn } from '@/lib/utils/cn'
 import NextImage from 'next/image'
+import Footer from './Footer'
+import Link from './Link'
+import MobileNav from './MobileNav'
+import SectionContainer from './SectionContainer'
+import ThemeSwitch from './ThemeSwitch'
 
 const LayoutWrapper = ({ children }) => {
   return (
@@ -39,7 +39,10 @@ const LayoutWrapper = ({ children }) => {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100"
+                  className={cn(
+                    'p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100',
+                    link.className
+                  )}
                 >
                   {link.title}
                 </Link>

@@ -15,13 +15,13 @@ const TimelineItem = ({ time, role, company, companyURL, companyBio, description
           </>
         ) : null}
         {companyBio ? ` - ${companyBio}` : null}
-        {/* {description ? (
+        {description ? (
           <div className="block my-2">
             <div className="mb-2">description:</div>
             <div className="pl-2">{description}</div>
           </div>
-        ) : null} */}
-        {/* {works ? (
+        ) : null}
+        {works ? (
           <div className="block my-2">
             <div className="mb-2">Key-works:</div>
             <div className="pl-2">
@@ -30,7 +30,7 @@ const TimelineItem = ({ time, role, company, companyURL, companyBio, description
               ))}
             </div>
           </div>
-        ) : null} */}
+        ) : null}
       </div>
     </li>
   )

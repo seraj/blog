@@ -1,0 +1,111 @@
+---
+title: 'Optimizing React Performance: Understanding the Key Differences Between useMemo and useCallback'
+date: '2024-08-10'
+tags: ['javascript', 'reactjs', 'hooks', 'useCallback', 'useMemo']
+draft: false
+summary: 'highlighting how they optimize performance by memoizing values and functions. useMemo is ideal for avoiding expensive recalculations, while useCallback prevents unnecessary re-renders by stabilizing function references. Understanding their use can significantly enhance React application efficiency.'
+images: ['/static/images/useMemoVSuseCallBack.png']
+authors: ['default']
+---
+
+import UnsplashLicense from './UnsplashLicense.js'
+
+![alt](/static/images/useMemoVSuseCallBack.png)
+
+In React, `useMemo` and `useCallback` are two hooks that help optimize performance by memoizing values and functions, respectively. Both hooks allow you to prevent unnecessary recalculations or recreations of values or functions, which can be particularly useful when dealing with expensive computations or functions that are passed as props to child components.
+
+### `useMemo`
+
+`useMemo` is used to memoize the result of a calculation. It only recalculates the value if the dependencies have changed since the last render. This can help prevent unnecessary computations on every render.
+
+#### Syntax
+
+```javascript
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b])
+```
+
+- **`computeExpensiveValue(a, b)`**: A function that computes a value.
+- **`[a, b]`**: Dependency array. The function is re-executed only if any value in the dependency array changes.
+
+#### Example
+
+```javascript
+import React, { useMemo } from 'react'
+
+function ExpensiveComponent({ a, b }) {
+  const expensiveResult = useMemo(() => {
+    console.log('Computing expensive value...')
+    return a + b // Example of a simple expensive calculation
+  }, [a, b])
+
+  return <div>Result: {expensiveResult}</div>
+}
+```
+
+In this example, the expensive calculation (here, simply adding `a` and `b`) is only recalculated when `a` or `b` changes. If neither changes, the memoized value is reused, and the computation is skipped.
+
+### `useCallback`
+
+`useCallback` is used to memoize a callback function. This hook returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing functions to child components to prevent unnecessary re-renders.
+
+#### Syntax
+
+```javascript
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b)
+}, [a, b])
+```
+
+- **`() => { doSomething(a, b); }`**: A function definition.
+- **`[a, b]`**: Dependency array. The function is recreated only if any value in the dependency array changes.
+
+#### Example
+
+```javascript
+import React, { useCallback, useState } from 'react'
+
+function Button({ onClick }) {
+  return <button onClick={onClick}>Click me</button>
+}
+
+function ParentComponent() {
+  const [count, setCount] = useState(0)
+
+  const increment = useCallback(() => {
+    setCount((prevCount) => prevCount + 1)
+  }, []) // Empty dependency array, callback is memoized
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <Button onClick={increment} />
+    </div>
+  )
+}
+```
+
+In this example, the `increment` function is passed to the `Button` component. With `useCallback`, the `increment` function is only recreated if the dependencies in the array change. In this case, the dependency array is empty, so the function will never be recreated, ensuring that the `Button` component does not re-render unnecessarily due to a new reference for the `onClick` prop.
+
+### Key Differences
+
+1. **Purpose**:
+
+   - `useMemo`: Memoizes the result of a computation.
+   - `useCallback`: Memoizes a function itself.
+
+2. **Use Case**:
+
+   - `useMemo`: Use when you have expensive computations and want to avoid recalculating them unless necessary.
+   - `useCallback`: Use when you pass functions as props to child components and want to prevent unnecessary re-renders.
+
+3. **Dependencies**:
+   - Both hooks rely on a dependency array to determine when to recalculate the memoized value or function.
+
+### When to Use Them
+
+- Use `useMemo` when you have a complex calculation or an object creation that you want to memoize to avoid re-computation.
+- Use `useCallback` when you need to ensure that a function has the same reference between renders, such as when the function is a dependency in another hook or when passing it as a prop to a component that optimizes render performance.
+
+### Conclusion
+
+Both `useMemo` and `useCallback` are valuable tools for optimizing React applications, helping to avoid unnecessary computations and re-renders. It's important to use them judiciously, as unnecessary use can add complexity and potentially make debugging more difficult.

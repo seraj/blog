@@ -1,5 +1,4 @@
 import '@/css/tailwind.css'
-import '@/css/twemoji.css'
 import '@/css/timeline.css'
 
 import { ThemeProvider } from 'next-themes'

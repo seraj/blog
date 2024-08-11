@@ -1,6 +1,5 @@
 import { useTheme } from 'next-themes'
-import { useState, useEffect, useCallback } from 'react'
-import Twemoji from './Twemoji'
+import { useCallback, useEffect, useState } from 'react'
 
 const ImageLightbox = ({ src, closeLightbox }) => {
   const [imgLoaded, setImgLoaded] = useState(false)
@@ -54,7 +53,9 @@ const ImageLightbox = ({ src, closeLightbox }) => {
             Esc
           </button>
           <button className="p-4" onClick={handleClose}>
-            <Twemoji emoji="cross-mark" />
+            <span role="img" aria-label="cross-mark">
+              ❌
+            </span>
           </button>
         </div>
         {/* eslint-disable @next/next/no-img-element */}

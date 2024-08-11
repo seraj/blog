@@ -1,14 +1,14 @@
 import Comments from '@/components/comments'
+import Emoji from '@/components/Emoji'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import ScrollTop from '@/components/ScrollTop'
 import SectionContainer from '@/components/SectionContainer'
 import { BlogSeo } from '@/components/SEO'
-import Tag from '@/components/Tag'
-import Twemoji from '@/components/Twemoji.js'
-import siteMetadata from '@/data/siteMetadata'
 import SocialButtons from '@/components/SocialButtons'
+import Tag from '@/components/Tag'
+import siteMetadata from '@/data/siteMetadata'
 
 const postDateTemplate = { year: 'numeric', month: 'short', day: 'numeric' }
 
@@ -35,14 +35,14 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, pag
                   <dt className="sr-only">Published on</dt>
                   <dd className="flex justify-center items-center text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date} className="flex items-center">
-                      <Twemoji emoji="calendar" size="" />
+                      <Emoji emoji="📅" size="" />
                       <span className="ml-1">
                         {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                       </span>
                     </time>
                     <span className="mx-2">-</span>
                     <div className="flex items-center">
-                      <Twemoji emoji="hourglass-not-done" size="" />
+                      <Emoji emoji="⏳" />
                       <span className="ml-1">{readingTimeText.replace('min', 'mins')}</span>
                     </div>
                   </dd>

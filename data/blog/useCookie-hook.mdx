@@ -1,33 +1,61 @@
 ---
-title: 'useCookie Hook - a simple way to work with cookies'
+title: 'How to Create a Type-Safe, Flexible useCookie Hook in TypeScript'
 date: '2021-10-09'
-tags: ['javascript', 'hook', 'reactjs', 'cookie']
+tags: ['typescript', 'hook', 'reactjs', 'cookie']
 draft: false
 summary: 'a hook for adding, removing, and modifying cookies'
 images: ['/static/images/note.jpg']
 authors: ['default']
 ---
 
-import Twemoji from './Twemoji.js'
-import UnsplashLicense from './UnsplashLicense.js'
+When working with client-side cookies in React, managing state alongside cookie values can sometimes be tricky. You might want a cookie's value to persist across sessions, or update it dynamically based on user interactions. Additionally, ensuring type safety in a TypeScript project adds another layer of complexity. Today, we'll walk through creating a custom `useCookie` hook in TypeScript that is both type-safe and flexible, making it easy to manage cookies in your React applications.
 
-useCookie implementation
+#### Why Create a Custom Hook?
 
-```js:useCookie.js
-import { useState, useCallback } from "react"
-import Cookies from "js-cookie"
+While there are libraries like `js-cookie` that handle cookie operations elegantly, integrating these with React's state management requires some extra work. A custom hook allows you to:
 
-export default function useCookie(name, defaultValue) {
-  const [value, setValue] = useState(() => {
+- **Synchronize State**: Keep a cookie's value in sync with React's state.
+- **Ensure Type Safety**: Use TypeScript to enforce type checks and avoid runtime errors.
+- **Abstract Cookie Management**: Simplify cookie operations with a reusable hook.
+
+Let's dive into the implementation of a `useCookie` hook that meets these requirements.
+
+### The `useCookie` Hook in TypeScript
+
+Here’s how the `useCookie` hook is implemented:
+
+```typescript
+import { useState, useCallback } from 'react'
+import Cookies, { CookieAttributes } from 'js-cookie'
+
+// Define the return type of the hook
+type UseCookieReturn<T> = [
+  T | null, // Value of the cookie
+  (newValue: T, options?: CookieAttributes) => void, // Function to update the cookie
+  () => void // Function to delete the cookie
+]
+
+export default function useCookie<T>(name: string, defaultValue: T): UseCookieReturn<T> {
+  const [value, setValue] = useState<T | null>(() => {
     const cookie = Cookies.get(name)
-    if (cookie) return cookie
-    Cookies.set(name, defaultValue)
+    if (cookie) {
+      try {
+        // Attempt to parse JSON if the cookie is a stringified object
+        return JSON.parse(cookie) as T
+      } catch (error) {
+        // If parsing fails, return the raw cookie string
+        return (cookie as unknown) as T
+      }
+    }
+    // If no cookie exists, set and return the default value
+    Cookies.set(name, JSON.stringify(defaultValue))
     return defaultValue
   })
 
   const updateCookie = useCallback(
-    (newValue, options) => {
-      Cookies.set(name, newValue, options)
+    (newValue: T, options?: CookieAttributes) => {
+      // Stringify the value before storing it
+      Cookies.set(name, JSON.stringify(newValue), options)
       setValue(newValue)
     },
     [name]
@@ -42,22 +70,70 @@ export default function useCookie(name, defaultValue) {
 }
 ```
 
-usage:
+### Key Features of the `useCookie` Hook
 
-```js:DisplayName.js
-import useCookie from "./useCookie"
+1. **Type Safety**:
+   The hook is generic (`<T>`), allowing you to specify the type of the cookie value. This is particularly useful when storing objects or arrays in cookies, as it ensures that your code remains type-safe and reduces the risk of runtime errors.
 
-function DisplayName() {
-  const [value, update, remove] = useCookie("name", "Doe")
+   ```typescript
+   const [user, setUser, deleteUser] = useCookie<User>('user', defaultUser)
+   ```
+
+2. **JSON Parsing**:
+   By default, cookies store values as strings. However, many applications need to store more complex data structures, such as objects or arrays. The `useCookie` hook attempts to parse the cookie value as JSON, allowing you to store and retrieve structured data easily. If the cookie value is not valid JSON, the hook safely returns the raw string value.
+
+3. **Cookie Attributes**:
+   The `updateCookie` function accepts an optional `options` parameter of type `CookieAttributes`, allowing you to configure cookie settings like `expires`, `path`, `secure`, and `sameSite`.
+
+   ```typescript
+   updateCookie(newUser, { expires: 7 })
+   ```
+
+4. **Default Value Handling**:
+   If the specified cookie does not exist, the hook sets and returns a default value. This ensures that your application behaves predictably, even when cookies are missing or have expired.
+
+### Using the `useCookie` Hook
+
+Now that we've built the `useCookie` hook, let's see how it can be used in a React component.
+
+```typescript
+import React from 'react'
+import useCookie from './useCookie'
+
+interface User {
+  name: string
+  age: number
+}
+
+const defaultUser: User = { name: 'John Doe', age: 30 }
+
+function UserProfile() {
+  const [user, setUser, deleteUser] = useCookie<User>('user', defaultUser)
+
+  const handleUpdateUser = () => {
+    setUser({ name: 'Jane Smith', age: 25 }, { expires: 7 })
+  }
+
+  const handleDeleteUser = () => {
+    deleteUser()
+  }
 
   return (
-    <>
-      <div>{value}</div>
-      <button onClick={() => update("Seraj")}>Change Name To Seraj</button>
-      <button onClick={remove}>Delete Cookie</button>
-    </>
+    <div>
+      <h1>User Profile</h1>
+      <p>Name: {user?.name}</p>
+      <p>Age: {user?.age}</p>
+      <button onClick={handleUpdateUser}>Update User</button>
+      <button onClick={handleDeleteUser}>Delete User</button>
+    </div>
   )
 }
 
-export default DisplayName;
+export default UserProfile
 ```
+
+### Conclusion
+
+With this custom `useCookie` hook, you now have a powerful tool to manage cookies in your React applications with ease and confidence. The hook's type safety, JSON parsing, and support for cookie attributes make it a flexible solution for a wide range of use cases. By encapsulating cookie management in a reusable hook, your codebase becomes cleaner and easier to maintain.
+
+Next time you need to manage cookies in a React project, consider using this `useCookie` hook to simplify your code and improve type safety.

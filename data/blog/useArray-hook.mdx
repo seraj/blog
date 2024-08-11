@@ -1,71 +1,240 @@
 ---
-title: 'useArray Hook - modifying lists'
+title: 'Mastering Array Manipulation in React with useArray Hook'
 date: '2021-10-10'
-tags: ['javascript', 'hook', 'reactjs', 'array']
+tags: ['typescript', 'hook', 'reactjs', 'array']
 draft: false
-summary: 'This hook allows you to manage lists.'
+summary: 'Using useArray with TypeScript is a powerful way to manage arrays in your React applications.'
 images: ['/static/images/note.jpg']
 authors: ['default']
 ---
 
-import Twemoji from './Twemoji.js'
-import UnsplashLicense from './UnsplashLicense.js'
+#### Introduction
 
-<UnsplashLicense photoURL="https://unsplash.com/photos/q1x3cuziBsc" author="JJ Ying" />
-![alt](/static/images/circles.jpg)
+Working with arrays in React can often become complex, especially when managing stateful arrays with frequent operations like adding, removing, or filtering elements. The `useArray` custom hook simplifies these operations and, when combined with TypeScript, provides strong type safety and better developer experience. In this post, we'll explore how to use `useArray` with TypeScript to streamline your React application development.
 
-implementation
+#### Why Use TypeScript with `useArray`?
 
-```js:useArray.js
-import { useState } from "react"
+TypeScript brings static typing to JavaScript, which helps catch errors early in the development process. By using TypeScript with `useArray`, you gain several benefits, including:
 
-const useArray = (defaultValue) => {
-    const [array, setArray] = useState(defaultValue)
+- **Type Safety**: Ensures that array operations are performed on the correct data types.
+- **Better IntelliSense**: Provides auto-completion and inline documentation in your IDE.
+- **Reduced Bugs**: Catch potential issues during compile time rather than at runtime.
 
-    const push = (element) => setArray(a => [...a, element]);
+#### Setting Up `useArray` in TypeScript
 
-    const filter = (callback) => setArray(a => a.filter(callback));
+First, import the `useArray` hook into your component:
 
-    const update = (index, newElement) => {
-        setArray(a => [
-            ...a.slice(0, index),
-            newElement,
-            ...a.slice(index + 1, a.length),
-        ])
-    }
+```typescript
+import { useState } from 'react'
 
-    const remove = (index) => {
-        setArray(a => [...a.slice(0, index), ...a.slice(index + 1, a.length)])
-    }
-
-    const clear = () => setArray([]);
-
-    return {array, set: setArray, push, filter, update, remove, clear }
+type UseArrayReturnType<T> = {
+  array: T[]
+  set: React.Dispatch<React.SetStateAction<T[]>>
+  push: (element: T) => void
+  filter: (callback: (element: T, index: number, array: T[]) => boolean) => void
+  update: (index: number, newElement: T) => void
+  remove: (index: number) => void
+  clear: () => void
+  pop: () => void
+  find: (callback: (element: T, index: number, array: T[]) => boolean) => T | undefined
+  findIndex: (callback: (element: T, index: number, array: T[]) => boolean) => number
+  includes: (element: T) => boolean
+  isEmpty: () => boolean
 }
 
-export default useArray;
+const useArray = <T>(initialValue: T[] = []): UseArrayReturnType<T> => {
+  const [array, setArray] = useState<T[]>(initialValue)
+
+  const push = (element: T) => setArray((a) => [...a, element])
+
+  const filter = (callback: (element: T, index: number, array: T[]) => boolean) =>
+    setArray((a) => a.filter(callback))
+
+  const update = (index: number, newElement: T) => {
+    setArray((a) =>
+      index >= 0 && index < a.length ? [...a.slice(0, index), newElement, ...a.slice(index + 1)] : a
+    )
+  }
+
+  const remove = (index: number) => {
+    setArray((a) =>
+      index >= 0 && index < a.length ? [...a.slice(0, index), ...a.slice(index + 1)] : a
+    )
+  }
+
+  const clear = () => setArray([])
+
+  const pop = () => {
+    setArray((a) => a.slice(0, a.length - 1))
+  }
+
+  const find = (callback: (element: T, index: number, array: T[]) => boolean) =>
+    array.find(callback)
+
+  const findIndex = (callback: (element: T, index: number, array: T[]) => boolean) =>
+    array.findIndex(callback)
+
+  const includes = (element: T) => array.includes(element)
+
+  const isEmpty = () => array.length === 0
+
+  return {
+    array,
+    set: setArray,
+    push,
+    filter,
+    update,
+    remove,
+    clear,
+    pop,
+    find,
+    findIndex,
+    includes,
+    isEmpty,
+  }
+}
+
+export default useArray
 ```
 
-usage:
+```typescript
+import useArray from './useArray'
+```
 
-```js:Array.js
-import useArray from "./useArray"
+Initialize the hook with a default array:
 
-export default function ArrayComponent() {
-  const { array, set, push, remove, filter, update, clear } = useArray([1, 2, 3, 4, 5, 6])
+```typescript
+const MyComponent = () => {
+  const {
+    array,
+    push,
+    update,
+    remove,
+    clear,
+    pop,
+    find,
+    findIndex,
+    includes,
+    isEmpty,
+  } = useArray<number>([1, 2, 3])
+
+  // Your component logic here
+}
+```
+
+#### Key Methods in `useArray`
+
+- **`push(element: T)`**: Adds a new element to the array.
+
+  ```typescript
+  push(4) // array: [1, 2, 3, 4]
+  ```
+
+- **`update(index: number, newElement: T)`**: Updates an element at a specified index.
+
+  ```typescript
+  update(1, 10) // array: [1, 10, 3]
+  ```
+
+- **`remove(index: number)`**: Removes the element at the specified index.
+
+  ```typescript
+  remove(0) // array: [2, 3]
+  ```
+
+- **`filter(callback: (element: T, index: number, array: T[]) => boolean)`**: Filters the array based on a callback function.
+
+  ```typescript
+  filter((num) => num > 1) // array: [2, 3]
+  ```
+
+- **`clear()`**: Clears the entire array.
+
+  ```typescript
+  clear() // array: []
+  ```
+
+- **`pop()`**: Removes the last element from the array.
+
+  ```typescript
+  pop() // array: [1, 2]
+  ```
+
+- **`find(callback: (element: T, index: number, array: T[]) => boolean): T | undefined`**: Finds the first element that matches the condition in the callback.
+
+  ```typescript
+  const found = find((num) => num > 1) // found: 2
+  ```
+
+- **`findIndex(callback: (element: T, index: number, array: T[]) => boolean): number`**: Finds the index of the first element that matches the condition in the callback.
+
+  ```typescript
+  const index = findIndex((num) => num > 1) // index: 1
+  ```
+
+- **`includes(element: T): boolean`**: Checks if the array includes a specific element.
+
+  ```typescript
+  const isInArray = includes(2) // isInArray: true
+  ```
+
+- **`isEmpty(): boolean`**: Checks if the array is empty.
+  ```typescript
+  const empty = isEmpty() // empty: false
+  ```
+
+#### Example Use Case
+
+Consider a situation where you're building a todo list. You can use `useArray` to manage the list of tasks:
+
+```typescript
+type Todo = { id: number; text: string; completed: boolean }
+
+const TodoList = () => {
+  const { array: todos, push, update, remove, clear } = useArray<Todo>([])
+
+  const addTodo = (text: string) => {
+    push({ id: Date.now(), text, completed: false })
+  }
+
+  const toggleTodo = (id: number) => {
+    const index = todos.findIndex((todo) => todo.id === id)
+    if (index !== -1) {
+      update(index, { ...todos[index], completed: !todos[index].completed })
+    }
+  }
+
+  const deleteTodo = (id: number) => {
+    const index = todos.findIndex((todo) => todo.id === id)
+    if (index !== -1) {
+      remove(index)
+    }
+  }
 
   return (
     <div>
-      <div>{array.join(", ")}</div>
-      <button onClick={() => push(7)}>Add 7</button>
-      <button onClick={() => update(1, 9)}>Change Second Element To 9</button>
-      <button onClick={() => remove(1)}>Remove Second Element</button>
-      <button onClick={() => filter(n => n < 3)}>
-        Keep Numbers Less Than 4
-      </button>
-      <button onClick={() => set([1, 2])}>Set To 1, 2</button>
-      <button onClick={clear}>Clear</button>
+      <button onClick={() => addTodo('New Task')}>Add Task</button>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span
+              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+              onClick={() => toggleTodo(todo.id)}
+            >
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={clear}>Clear All</button>
     </div>
   )
 }
 ```
+
+#### Conclusion
+
+Using `useArray` with TypeScript is a powerful way to manage arrays in your React applications. The added type safety, along with the intuitive array manipulation methods, allows you to write cleaner, more maintainable code. By adopting `useArray` in your projects, you can reduce bugs, improve code readability, and boost your productivity.
+
+Happy coding with TypeScript and React!

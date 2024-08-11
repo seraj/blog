@@ -1,0 +1,84 @@
+---
+title: 'Block Scopes in Javascript'
+date: '2021-10-10'
+tags: ['javascript', 'block', 'scopes', 'js', 'shadowing']
+draft: false
+summary: "In JavaScript, block scope confines variables declared with let and const to the specific block of code in which they're defined, unlike var, which is function-scoped. This prevents access to these variables outside the block, enhancing code safety and reducing errors. Attempting to access block-scoped variables before their declaration results in a ReferenceError."
+images: ['/static/images/const-vs-let-vs-var.png']
+authors: ['default']
+---
+
+import UnsplashLicense from './UnsplashLicense.js'
+
+![alt](/static/images/const-vs-let-vs-var.png)
+
+In JavaScript, block scope refers to the scope of variables defined within a specific block of code, typically enclosed by curly braces `{}`. Variables declared with `let` and `const` are block-scoped, meaning they are only accessible within the block in which they are defined and not outside of it.
+
+### Key Points of Block Scope in JavaScript:
+
+1. **Block Definition**:
+
+   - A block is usually defined by a pair of curly braces `{}`. Common examples include code inside an `if` statement, `for` loop, or any other block of code that uses `{}`.
+
+   ```javascript
+   {
+     let a = 10
+     const b = 20
+     console.log(a) // 10
+     console.log(b) // 20
+   }
+   // Outside the block
+   console.log(a) // ReferenceError: a is not defined
+   console.log(b) // ReferenceError: b is not defined
+   ```
+
+2. **`let` and `const`**:
+
+   - Variables declared with `let` and `const` are only accessible within the block in which they are defined.
+   - They do not get hoisted to the top of the block like `var` does in a function or global scope.
+
+   ```javascript
+   if (true) {
+     let x = 5
+     const y = 10
+   }
+   console.log(x) // ReferenceError: x is not defined
+   console.log(y) // ReferenceError: y is not defined
+   ```
+
+3. **`var` and Function Scope**:
+
+   - Variables declared with `var` are function-scoped, not block-scoped. This means they are accessible within the entire function, even if they are declared inside a block.
+
+   ```javascript
+   if (true) {
+     var z = 15
+   }
+   console.log(z) // 15 (z is accessible outside the block)
+   ```
+
+4. **Temporal Dead Zone (TDZ)**:
+
+   - Variables declared with `let` and `const` are in the "temporal dead zone" from the start of the block until the variable's declaration is encountered. Accessing the variable before its declaration will result in a `ReferenceError`.
+
+   ```javascript
+   {
+     console.log(a) // ReferenceError: a is not defined
+     let a = 5
+   }
+   ```
+
+5. **Nested Scopes**:
+
+   - You can have nested blocks, and each block will have its own scope. Variables in an inner block can shadow variables in an outer block.
+
+   ```javascript
+   let x = 10
+   {
+     let x = 20
+     console.log(x) // 20 (x inside the block shadows the outer x)
+   }
+   console.log(x) // 10 (outer x is unaffected)
+   ```
+
+Block scope is an important concept in JavaScript that helps in preventing unintended variable access and modifications, making code more predictable and easier to debug.

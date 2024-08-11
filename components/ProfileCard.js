@@ -1,7 +1,7 @@
+import fetcher from '@/lib/fetcher'
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
-import fetcher from '@/lib/fetcher'
 
 const ProfileCard = () => {
   const { data } = useSWR('/api/spotify', fetcher)
@@ -58,14 +58,14 @@ const ProfileCard = () => {
           className="flex flex-col transition-all duration-200 ease-out xl:hover:shadow-xl xl:shadow-md xl:rounded-lg bg-white dark:bg-gray-800 xl:border border-gray-200 overflow-hidden"
         >
           <Image
-            src={'/static/images/logo.jpg'}
+            src={'/static/images/me.jpg'}
             alt="avatar"
-            shouldOpenLightbox={false}
+            shouldOpenLightbox
             width="550px"
-            height="370px"
+            height="500px"
             className="object-cover object-top"
           />
-          <Spotify data={data} />
+          {/* <Spotify data={data} /> */}
           <ProfileInfo />
         </div>
       </div>
@@ -117,7 +117,7 @@ const ProfileInfo = () => (
   <div className="hidden xl:block xl:px-6 py-4">
     <h1 className="text-xl font-semibold text-gray-800 dark:text-white">Seraj Vahdati</h1>
 
-    <p className="py-2 text-gray-700 dark:text-gray-400">Front End Engineer</p>
+    <p className="py-2 text-gray-700 dark:text-gray-400">Senior Front End Engineer</p>
 
     <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">
       <svg
@@ -134,7 +134,7 @@ const ProfileInfo = () => (
         />
       </svg>
 
-      <h1 className="px-2 text-sm">Software Engineer @ Goki</h1>
+      <h1 className="px-2 text-sm">Front End Engineer @ Setflow</h1>
     </div>
 
     <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">

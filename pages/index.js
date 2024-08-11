@@ -1,7 +1,7 @@
+import Emoji from '@/components/Emoji'
 import Link from '@/components/Link'
 import { PageSeo } from '@/components/SEO'
 import Tag from '@/components/Tag'
-import Twemoji from '@/components/Twemoji.js'
 import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
@@ -21,33 +21,36 @@ export default function Home({ posts }) {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="pt-6 pb-8 space-y-2 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Seraj Vahdati <i className="twa twa-waving-hand"></i>
+            Seraj Vahdati <Emoji emoji="👋" />
           </h1>
-          <p className="text-lg leading-7 text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Senior Front End Engineer</span> at{' '}
-            <a
-              href="https://goki.travel/"
-              target="_blank"
-              className="text-primary-400 hover:text-primary-600 dark:hover:text-primary-400"
-              rel="noreferrer"
-            >
-              Goki
-            </a>
-            .
+          <div className="text-lg leading-7 text-gray-600 dark:text-gray-400">
+            <span className="font-medium">Senior Front End Engineer</span>.{' '}
+            <div className="text-base font-medium leading-6">
+              <Link
+                href="https://cv.seraj.me/pdf/light/SerajVahdati-Resume.pdf"
+                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                aria-label="Download Seraj Vahdati Resume"
+              >
+                Download Resume &rarr;
+              </Link>
+            </div>
             <p className="my-4">
-              I'm a passionate software developer with experience across the stack and always keen
-              to try all the shiny new little things the web has to offer. Service workers,
-              composite workers, and everything that works mostly behind a flag.{' '}
-              <Twemoji emoji="desktop computer" />
+              I'm a passionate Senior Front End Engineer with extensive experience in building
+              high-performance web applications. I specialize in React, Next.js, and TypeScript, and
+              I love working with the latest web technologies. My journey includes enhancing user
+              experiences and optimizing applications for companies like Setflow, Goki, and Omid
+              Analyzer. With a strong foundation in JavaScript, HTML, and CSS, I've led teams,
+              conducted numerous code reviews, and implemented innovative solutions that drive
+              performance and usability. Always eager to learn and grow, I'm excited to continue
+              pushing the boundaries of web development. <Emoji emoji="💻" />
             </p>
             <p className="my-4">
-              I loves 60fps web interfaces, frontend automation, and offline-first web apps. My
-              expertise includes Javascript, HTML, and CSS. I'm excited to leverage the latest
-              technologies to build powerful and performant applications. The most recent
-              applications I've worked on utilize frameworks such as React with Redux, and Meteor
-              with React to create modular and performant single-page applications.
+              <b>Proficient Languages & Frameworks:</b> React Nextjs Typescript Javascript Shadcn
+              Tailwind Zustand Webpack GraphQL Redux.
+              <br /> <b>Knowledgeable Languages & Frameworks:</b> Python PHP SQL Django NodeJs
+              ExpressJs
             </p>
-          </p>
+          </div>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
